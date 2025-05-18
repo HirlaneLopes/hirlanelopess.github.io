@@ -149,8 +149,27 @@
             }
         });
     }
+          // Botão "Excluir"
+                document.querySelectorAll(".btn-excluir").forEach(btn => {
+                    btn.addEventListener("click", function () {
+                        const numero = this.getAttribute("data-numero");
 
-    document.getElementById("entrar").addEventListener("click", () => {
+                        if (confirm("Tem certeza que deseja excluir esta escolha?")) {
+                            update(ref(db, "rifa/" + numero), {
+                                nome: null,
+                                contato: null,
+                                pago: null
+                            }).then(() => {
+                                carregarDados();
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+      document.getElementById("entrar").addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const senha = document.getElementById("senha").value;
 
