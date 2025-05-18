@@ -44,6 +44,15 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .btn-excluir {
+            padding: 5px 10px;
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
         .pago {
             color: green;
             font-weight: bold;
@@ -81,21 +90,19 @@
     <tbody id="rifa-tabela"></tbody>
 </table>
 
-</script>
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
     const firebaseConfig = {
-    apiKey: "AIzaSyBygFwhHCIQJ482H-dHy2HjBZ1OXPy-NgU",
-    authDomain: "rifahirlane.firebaseapp.com",
-    projectId: "rifahirlane",
-    storageBucket: "rifahirlane.firebasestorage.app",
-    messagingSenderId: "881092329685",
-    appId: "1:881092329685:web:08842e6a858da8af00625c"
-  };
+        apiKey: "AIzaSyBygFwhHCIQJ482H-dHy2HjBZ1OXPy-NgU",
+        authDomain: "rifahirlane.firebaseapp.com",
+        projectId: "rifahirlane",
+        storageBucket: "rifahirlane.firebasestorage.app",
+        messagingSenderId: "881092329685",
+        appId: "1:881092329685:web:08842e6a858da8af00625c"
+    };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -125,13 +132,17 @@
                         <td>${contato ?? '-'}</td>
                         <td class="${pago ? 'pago' : ''}">${pago ? "Pago" : "Pendente"}</td>
                         <td>
-                            ${!pago ? `<button class="btn-pagar" data-numero="${numero}">Marcar como pago</button>` : ""}
+                            ${!pago ? `
+                                <button class="btn-pagar" data-numero="${numero}">Marcar como pago</button>
+                                <button class="btn-excluir" data-numero="${numero}">Excluir</button>
+                            ` : ""}
                         </td>
                     `;
 
                     tabela.appendChild(tr);
                 });
 
+                // Botão "Marcar como pago"
                 document.querySelectorAll(".btn-pagar").forEach(btn => {
                     btn.addEventListener("click", function () {
                         const numero = this.getAttribute("data-numero");
@@ -146,10 +157,8 @@
                         }
                     });
                 });
-            }
-        });
-    }
-          // Botão "Excluir"
+
+                // Botão "Excluir"
                 document.querySelectorAll(".btn-excluir").forEach(btn => {
                     btn.addEventListener("click", function () {
                         const numero = this.getAttribute("data-numero");
@@ -169,7 +178,7 @@
         });
     }
 
-      document.getElementById("entrar").addEventListener("click", () => {
+    document.getElementById("entrar").addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const senha = document.getElementById("senha").value;
 
@@ -208,7 +217,4 @@
 
 </body>
 </html>
-
-
-
 
